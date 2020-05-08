@@ -1,0 +1,147 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "api-build",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"build",
+				"${workspaceFolder}/api/api/api.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "publish",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"publish",
+				"${workspaceFolder}/api/api/api.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "watch",
+			"command": "dotnet",
+			"type": "process",
+			"args": [
+				"watch",
+				"run",
+				"${workspaceFolder}/api/api/api.csproj",
+				"/property:GenerateFullPaths=true",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build: api-debug",
+			"dependsOn": ["api-build"],
+			"dockerBuild": {
+				"tag": "expresspost-api:dev",
+				"target": "base",
+				"dockerfile": "${workspaceFolder}/api/api/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/api/api/api.csproj"
+			}
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build: api-release",
+			"dependsOn": ["api-build"],
+			"dockerBuild": {
+				"tag": "expresspost-api:latest",
+				"dockerfile": "${workspaceFolder}/api/api/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/api/api/api.csproj"
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: api-debug",
+			"dependsOn": ["docker-build: api-debug"],
+			"dockerRun": {
+				"ports": [
+					{
+						"hostPort": 5000,
+						"containerPort": 5000
+					}
+				],
+				"volumes": [
+					{
+						"localPath": "${workspaceFolder}/logs",
+						"containerPath": "/logs",
+						"permissions": "rw"
+					}
+				]
+			},
+			"netCore": {
+				"appProject": "${workspaceFolder}/api/api/api.csproj",
+				"enableDebugging": true
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: api-release",
+			"dependsOn": ["docker-build: api-release"],
+			"dockerRun": {},
+			"netCore": {
+				"appProject": "${workspaceFolder}/api/api/api.csproj"
+			}
+		},
+		{
+			"type": "docker-build",
+			"label": "docker-build: admin",
+			"platform": "node",
+			"node": { "package": "${workspaceFolder}/admin/package.json" },
+			"runOptions": { "runOn": "folderOpen" },
+			"dockerBuild": {
+				"tag": "expresspost-admin:build",
+				"dockerfile": "${workspaceFolder}/admin/Dockerfile",
+				"context": "${workspaceFolder}",
+				"pull": true
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: admin-release",
+			"dependsOn": ["docker-build: admin"],
+			"platform": "node",
+			"node": {
+				"package": "${workspaceFolder}/admin/package.json"
+			}
+		},
+		{
+			"type": "docker-run",
+			"label": "docker-run: admin-debug",
+			"dependsOn": ["docker-build: admin"],
+			"dockerRun": {
+				"env": {
+					"DEBUG": "*",
+					"NODE_ENV": "development"
+				},
+				"ports": [
+					{
+						"hostPort": 3000,
+						"containerPort": 3000
+					}
+				]
+			},
+			"node": {
+				"enableDebugging": true,
+				"package": "${workspaceFolder}/admin/package.json"
+			}
+		}
+	]
+}
