@@ -1,7 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using api.Infrastructure.ModelBinders;
+using api.Core.Store;
+using api.Core.Store.Entities;
+using api.Infrastructure.Security;
+using api.Infrastructure.Store;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace api.Features
@@ -15,23 +21,33 @@ namespace api.Features
     [Route("api/v{version:apiVersion}/[controller]")]
     public class TestController : ControllerBase
     {
+        Store<Admin> _store;
+        JWTokenService _tokenService;
         private readonly ILogger<TestController> _logger;
 
-        public TestController(ILogger<TestController> logger)
+        public TestController(Store<Admin> store, JWTokenService tokenService, ILogger<TestController> logger)
         {
             _logger = logger;
+            _tokenService = tokenService;
+            _store = store;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("demo")]
         [MapToApiVersion("1")]
-        public async Task<IActionResult> Demo(long id)
+        public async Task<IActionResult> Demo()
         {
-            _logger.LogInformation(id.ToString());
-            _logger.LogDebug(id.ToString());
-            _logger.LogError(id.ToString());
-            _logger.LogTrace(id.ToString());
-            _logger.LogCritical(id.ToString());
-            return Ok(id);
+            var admin = await _store.GetByExpression(x => x.Username == "Administrator").FirstOrDefaultAsync();
+            var token = _tokenService.CreateToken(new List<Claim>
+            {
+                new Claim("sub", admin.Id.ToString()),
+                new Claim("username", admin.Username)
+            });
+            _logger.LogInformation(token.ToString());
+            _logger.LogDebug(token.ToString());
+            _logger.LogError(token.ToString());
+            _logger.LogTrace(token.ToString());
+            _logger.LogCritical(token.ToString());
+            return Ok(token);
         }
 
         [HttpGet("Demo2/{id}")]
