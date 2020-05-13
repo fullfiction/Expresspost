@@ -15,13 +15,13 @@ namespace api.Infrastructure.Store.Seed
 
         public async Task SeedAdminAsync()
         {
-            var administrator = await context.Admins.FirstOrDefaultAsync(admin => admin.Username == "Administrator");
+            var administrator = await context.Admins.FirstOrDefaultAsync(admin => admin.Username == "ADMINISTRATOR");
             if (administrator == null)
             {
                 administrator = new Admin
                 {
                     IsActive = true,
-                    Username = "Administrator",
+                    Username = "ADMINISTRATOR",
                     Password = "123asdASD"
                 };
                 context.Add(administrator);

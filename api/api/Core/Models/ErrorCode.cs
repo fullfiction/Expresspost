@@ -5,6 +5,7 @@ namespace api.Core.Models
     public enum ErrorCode
     {
         Default,
-        InvalidUsername
+        InvalidUsername,
+        InvalidPassword
     }
 }
