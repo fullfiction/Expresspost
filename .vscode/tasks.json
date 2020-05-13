@@ -14,7 +14,7 @@
 			"problemMatcher": "$msCompile"
 		},
 		{
-			"label": "publish",
+			"label": "api-publish",
 			"command": "dotnet",
 			"type": "process",
 			"args": [
@@ -26,7 +26,7 @@
 			"problemMatcher": "$msCompile"
 		},
 		{
-			"label": "watch",
+			"label": "api-watch",
 			"command": "dotnet",
 			"type": "process",
 			"args": [

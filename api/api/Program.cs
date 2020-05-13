@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using api.Infrastructure.Store.Seed;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -12,13 +10,13 @@ namespace api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
             try
             {
                 logger.Debug("init main");
-                CreateHostBuilder(args).Build().Run();
+                (await CreateHostBuilder(args).Build().SeedAsync()).Run();
             }
             catch (Exception exception)
             {
@@ -40,6 +38,7 @@ namespace api
                 {
                     logging.ClearProviders();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.AddConsole();
                 })
                 .UseNLog();
     }
