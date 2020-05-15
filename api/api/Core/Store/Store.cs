@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Core.Store.Entities;
 using api.Infrastructure.Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Core.Store
 {
@@ -16,14 +17,15 @@ namespace api.Core.Store
             _context = context;
         }
 
-        public async Task<T> GetByIdAsync(long id)
+        public IQueryable<T> GetByExpression(Expression<Func<T, bool>> expression, bool track = false)
         {
-            return await _context.FindAsync<T>(id);
+            var querable = _context.Set<T>().Where(expression);
+            return track ? querable : querable.AsNoTracking();
         }
 
-        public IQueryable<T> GetByExpression(Expression<Func<T, bool>> expression)
+        public async Task<T> GetByIdAsync(long id, bool track = false)
         {
-            return _context.Set<T>().Where(expression);
+            return await GetByExpression(x => x.Id == id, track).FirstOrDefaultAsync();
         }
 
         public T Create(T entity)

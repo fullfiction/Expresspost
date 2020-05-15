@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace api.Features.Administration.Authentication.Models.Request
 {
-    public class LoginRequest
+    public class TokenRequest
     {
         [Required]
         public string Username { get; set; }

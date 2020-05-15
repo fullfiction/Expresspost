@@ -4,6 +4,9 @@ using api.Infrastructure.ModelBinders;
 using api.Infrastructure.Security;
 using api.Infrastructure.Store;
 using api.Infrastructure.SwaggerVersioning;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,9 +20,18 @@ namespace api.Infrastructure.Extensions.SwaggerVersioning
             services.ConfigureStore(loggerFactory, configuration);
             services.ConfigureSecurity(configuration);
 
-            services.AddControllers(options => options.ModelBinderProviders.Add(new UnixDateTimeModelBinderProvider(loggerFactory)))
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllers(options =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                    options.ModelBinderProviders.Add(new UnixDateTimeModelBinderProvider(loggerFactory));
+                })
                 .AddJsonOptions(options =>
                 {
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

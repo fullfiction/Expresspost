@@ -14,8 +14,10 @@ namespace api.Core.Store
         {
             _context = context;
         }
-
-        public Store<Admin> AdminStore => new Store<Admin>(_context);
+        public Store<T> GetStore<T>() where T : Entity
+        {
+            return new Store<T>(_context);
+        }
 
         public Result<int> Save()
         {

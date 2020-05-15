@@ -6,6 +6,7 @@ namespace api.Core.Models
     {
         Default,
         InvalidUsername,
-        InvalidPassword
+        InvalidPassword,
+        DataNotFound
     }
 }

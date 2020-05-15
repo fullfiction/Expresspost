@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using api.Core.Services;
 using api.Core.Store.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,9 @@ namespace api.Infrastructure.Store.Seed
             this.context = context;
         }
 
-        public async Task SeedAdminAsync()
+        public async Task SeedAdminAsync(AdminService adminService)
         {
-            var administrator = await context.Admins.FirstOrDefaultAsync(admin => admin.Username == "ADMINISTRATOR");
+            var administrator = await adminService.GetByUsernameAsync("ADMINISTRATOR");
             if (administrator == null)
             {
                 administrator = new Admin
@@ -24,14 +25,13 @@ namespace api.Infrastructure.Store.Seed
                     Username = "ADMINISTRATOR",
                     Password = "123asdASD"
                 };
-                context.Add(administrator);
+                await adminService.CreateAsync(administrator);
             }
             else
             {
                 administrator.IsActive = true;
-                context.Update(administrator);
+                await adminService.UpdateAsync(administrator.Id, administrator);
             }
-            await context.SaveChangesAsync();
         }
     }
 }
