@@ -24,7 +24,7 @@ namespace api.Features.Administration.Admins
         }
 
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ResultModel<Admin>), 200)]
+        [ProducesResponseType(typeof(ResultModel<SingleOut>), 200)]
         public override async Task<ActionResult<ResultModel<SingleOut>>> UpdateAsync(long id, UpdateIn input)
         {
             var admin = _mapper.Map<Admin>(input);
@@ -33,7 +33,7 @@ namespace api.Features.Administration.Admins
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ResultModel<Admin>), 200)]
+        [ProducesResponseType(typeof(ResultModel<SingleOut>), 200)]
         public override async Task<ActionResult<ResultModel<SingleOut>>> CreateAsync(CreateIn input)
         {
             var admin = _mapper.Map<Admin>(input);
