@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using api.Core.Models;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Infrastructure.ActionResults
 {
-    public class ApiActionResult<T> : IActionResult
+    public class ApiActionResult<T> : ActionResult
     {
         private readonly Result<T> _result;
         private readonly int _count;
@@ -18,7 +17,7 @@ namespace api.Infrastructure.ActionResults
             this._count = count;
         }
 
-        public Task ExecuteResultAsync(ActionContext context)
+        public override Task ExecuteResultAsync(ActionContext context)
         {
             if (_result.Data is IList && _result.Data.GetType().IsGenericType)
             {

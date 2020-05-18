@@ -17,6 +17,8 @@ namespace api.Core.Store
             _context = context;
         }
 
+        public StoreContext Context { get { return _context; } }
+
         public IQueryable<T> GetByExpression(Expression<Func<T, bool>> expression, bool track = false)
         {
             var querable = _context.Set<T>().Where(expression);

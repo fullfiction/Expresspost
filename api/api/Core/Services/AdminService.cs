@@ -23,7 +23,7 @@ namespace api.Core.Services
         public async Task<Admin> GetByUsernameAsync(string username)
         {
             username = NormalizeUsername(username);
-            var admin = await _unitOfWork.GetStore<Admin>().GetByExpression(x => x.Username == username).FirstOrDefaultAsync();
+            var admin = await _unitOfWork.GetStore<Admin>().GetByExpression(x => x.Username.ToUpper() == username).FirstOrDefaultAsync();
             return admin;
         }
 
@@ -35,6 +35,12 @@ namespace api.Core.Services
         public string HashPassword(string rawPassword)
         {
             return _passwordHashService.Hash(rawPassword);
+        }
+
+        public async Task<Admin> GetActiveBySubAsync(long sub)
+        {
+            var admin = await _unitOfWork.GetStore<Admin>().GetByExpression(x => x.Id == sub && x.IsActive).FirstOrDefaultAsync();
+            return admin;
         }
 
         public async Task<Result<Admin>> ValidateCredentials(string username, string password)
@@ -52,7 +58,6 @@ namespace api.Core.Services
         {
             var stored = await _unitOfWork.GetStore<Admin>().GetByIdAsync(id, true);
             stored.IsActive = admin.IsActive;
-            stored.Password = HashPassword(admin.Password);
             stored.Username = NormalizeUsername(admin.Username);
             var updated = _unitOfWork.GetStore<Admin>().Update(stored);
             await _unitOfWork.SaveAsync();

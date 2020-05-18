@@ -14,6 +14,7 @@ import {
 	Create,
 	Filter,
 	required,
+	EditButton,
 } from "react-admin";
 
 const AdminsFilter = (props) => (
@@ -35,9 +36,10 @@ export const AdminsList = (props) => {
 					}}
 				/>
 			) : (
-				<Datagrid rowClick="edit">
+				<Datagrid>
 					<TextField source="username" />
 					<BooleanField source="isActive" />
+					<EditButton />
 				</Datagrid>
 			)}
 		</List>
@@ -52,7 +54,6 @@ export const AdminsEdit = (props) => (
 	<Edit title={<AdminsTitle />} {...props}>
 		<SimpleForm>
 			<TextInput source="username" validate={required()} />
-			<PasswordInput source="password" validate={required()} />
 			<BooleanInput source="isActive" />
 		</SimpleForm>
 	</Edit>

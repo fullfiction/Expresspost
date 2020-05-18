@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using api.Infrastructure.JsonConverters;
 using api.Infrastructure.ModelBinders;
@@ -5,6 +6,7 @@ using api.Infrastructure.Security;
 using api.Infrastructure.Store;
 using api.Infrastructure.SwaggerVersioning;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +23,12 @@ namespace api.Infrastructure.Extensions.SwaggerVersioning
             services.ConfigureSecurity(configuration);
 
             services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers(options =>
                 {
-                    var policy = new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build();
+                    var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                                    .RequireAuthenticatedUser()
+                                    .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
                     options.ModelBinderProviders.Add(new UnixDateTimeModelBinderProvider(loggerFactory));
                 })

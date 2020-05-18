@@ -30,6 +30,7 @@ namespace api.Infrastructure.SwaggerVersioning
             services.AddSwaggerGen(
                 options =>
                 {
+                    options.CustomSchemaIds(type => type.ToString());
                     options.OperationFilter<SwaggerDefaultValues>();
                     options.OperationFilter<DateTimeOperationFilter>();
                     options.IncludeXmlComments(XmlCommentsFilePath);
