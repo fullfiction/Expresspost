@@ -66,6 +66,26 @@ namespace api.Infrastructure.Store
                 options.HasOne(rel => rel.Company).WithMany(rel => rel.Countries).HasForeignKey(fk => fk.CompanyId).OnDelete(DeleteBehavior.Cascade);
                 options.HasOne(rel => rel.Country).WithMany(rel => rel.Companies).HasForeignKey(fk => fk.CountryId).OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<Branch>(options => 
+            {
+                options.ToTable("Branches");
+                options.Property(prop => prop.Id).IsRequired();
+                options.Property(prop => prop.Created).IsRequired();
+
+                options.Property(prop => prop.AddressLine1).IsRequired().HasMaxLength(300);
+                options.Property(prop => prop.AddressLine2).IsRequired().HasMaxLength(300);
+                options.Property(prop => prop.Email).IsRequired().HasMaxLength(200);
+                options.Property(prop => prop.Phonenumber).IsRequired().HasMaxLength(100);
+                options.Property(prop => prop.ZipCode).HasMaxLength(20);
+                options.Property(prop => prop.State).HasMaxLength(100);
+
+                options.Property(prop => prop.CompanyId).IsRequired();
+                options.Property(prop => prop.CountryId).IsRequired();
+
+                options.HasOne(rel => rel.Company).WithMany(x=> x.Branches).HasForeignKey(fk => fk.CompanyId);
+                options.HasOne(rel => rel.Country).WithMany(x=> x.Branches).HasForeignKey(fk => fk.CountryId);
+            });
         }
     }
 }

@@ -16,8 +16,7 @@ import {
 	required,
 	SingleFieldList,
 	ChipField,
-	ReferenceManyField,
-	EditButton,
+	ReferenceManyField
 } from "react-admin";
 
 const CompaniesFilter = (props) => (
@@ -47,7 +46,6 @@ export const CompaniesList = (props) => {
 							<ChipField source="name" />
 						</SingleFieldList>
 					</ReferenceManyField>
-					<EditButton />
 				</Datagrid>
 			)}
 		</List>

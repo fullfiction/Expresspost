@@ -1,6 +1,6 @@
 import React from "react";
 import UserIcon from "@material-ui/icons/Group";
-import { fetchUtils, Admin, Resource } from "react-admin";
+import { fetchUtils, Admin, Resource, ListGuesser, EditGuesser } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 import Dashboard from "./Dashboard/Dashboard";
 import authProvider from "./Security/authProvider";
@@ -8,7 +8,8 @@ import AdminLayout from "./AdminLayout";
 import IdleTimer from "react-idle-timer";
 import { AdminsList, AdminsEdit, AdminsCreate } from "./Admins/Admins";
 import { CompaniesList, CompaniesEdit, CompaniesCreate } from "./Companies/Companies";
-import { CountriesList, CountriesEdit, CountriesCreate } from "./Countries/Companies";
+import { CountriesList, CountriesEdit, CountriesCreate } from "./Countries/Countries";
+import { BranchList, BranchEdit, BranchCreate } from "./Branches/Branches";
 
 const httpClient = (url, options = {}) => {
 	if (!options.headers) {
@@ -67,6 +68,13 @@ const App = (props) => {
 					list={CountriesList}
 					edit={CountriesEdit}
 					create={CountriesCreate}
+					icon={UserIcon}
+				/>
+				<Resource
+					name="Branches"
+					list={BranchList}
+					edit={BranchEdit}
+					create={BranchCreate}
 					icon={UserIcon}
 				/>
 			</Admin>

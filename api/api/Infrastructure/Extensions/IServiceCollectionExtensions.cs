@@ -24,6 +24,8 @@ namespace api.Infrastructure.Extensions.SwaggerVersioning
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddControllers(options =>
                 {
                     var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)

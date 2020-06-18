@@ -1,5 +1,5 @@
 import React from "react";
-import { UserMenu, MenuItemLink, Logout } from "react-admin";
+import { UserMenu, MenuItemLink } from "react-admin";
 import SettingsIcon from "@material-ui/icons/Settings";
 import jwt from "jwt-decode";
 

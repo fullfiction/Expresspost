@@ -10,5 +10,6 @@ namespace api.Core.Store.Entities
         public Company Parent { get; set; }
         public virtual List<Company> Childs { get; set; }
         public virtual List<CompanyCountry> Countries { get; set; }
+        public virtual List<Branch> Branches { get; set; }
     }
 }

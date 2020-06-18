@@ -8,5 +8,6 @@ namespace api.Core.Store.Entities
         public string Name { get; set; }
 
         public virtual List<CompanyCountry> Companies { get; set; }
+        public virtual List<Branch> Branches {get; set;}
     }
 }

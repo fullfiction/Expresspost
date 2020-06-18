@@ -4,11 +4,9 @@ import { useMediaQuery } from "@material-ui/core";
 import {
 	MenuItemLink,
 	getResources,
-	Menu,
 	DashboardMenuItem,
 } from "react-admin";
 import { withRouter } from "react-router-dom";
-import LabelIcon from "@material-ui/icons/Label";
 
 const AdminMenu = ({ onMenuClick, logout }) => {
 	const isXSmall = useMediaQuery((theme) => theme.breakpoints.down("xs"));

@@ -7,17 +7,10 @@ import {
 	TextField,
 	Edit,
 	SimpleForm,
-	ReferenceInput,
-	ReferenceField,
 	TextInput,
-	SelectInput,
 	Create,
 	Filter,
 	required,
-	SingleFieldList,
-	ChipField,
-	ReferenceManyField,
-	EditButton,
 } from "react-admin";
 
 const CountriesFilter = (props) => (
