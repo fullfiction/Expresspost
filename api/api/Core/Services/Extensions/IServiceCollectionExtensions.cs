@@ -9,7 +9,7 @@ namespace api.Core.Services.Extensions
         {
             services.AddScoped<IUsernameNormalizerService, UsernameUpperNormalizer>();
             services.AddScoped<IPasswordHashService, Sha256PasswordHashService>();
-            services.AddScoped<AdminService>();
+            services.AddScoped<EmployeeService>();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace api.Infrastructure.Store.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("Relational:Sequence:.EntityFrameworkHiLoSequence", "'EntityFrameworkHiLoSequence', '', '1', '10', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("api.Core.Store.Entities.Admin", b =>
+            modelBuilder.Entity("api.Core.Models.Admin", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.Company", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,9 +84,9 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.Company", b =>
                 {
-                    b.HasOne("api.Core.Store.Entities.Company", "Parent")
+                    b.HasOne("api.Core.Models.Company", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.SetNull);

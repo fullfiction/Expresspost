@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using api.Core.Store.Entities;
+using api.Core.Models;
 using api.Infrastructure.Store;
 using Microsoft.EntityFrameworkCore;
 

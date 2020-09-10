@@ -21,40 +21,7 @@ namespace api.Infrastructure.Store.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("Relational:Sequence:.EntityFrameworkHiLoSequence", "'EntityFrameworkHiLoSequence', '', '1', '10', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("api.Core.Store.Entities.Admin", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("character varying(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("character varying(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("Admins");
-                });
-
-            modelBuilder.Entity("api.Core.Store.Entities.Branch", b =>
+            modelBuilder.Entity("api.Core.Models.Branch", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +77,35 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Branches");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.BranchEmployee", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
+
+                    b.Property<long>("BranchId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("BranchEmployee");
+                });
+
+            modelBuilder.Entity("api.Core.Models.Company", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,11 +123,6 @@ namespace api.Infrastructure.Store.Migrations
                     b.Property<long?>("ParentId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Prefix")
-                        .IsRequired()
-                        .HasColumnType("character varying(10)")
-                        .HasMaxLength(10);
-
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
@@ -143,32 +133,7 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.CompanyCountry", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
-
-                    b.Property<long>("CompanyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CountryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("CompanyCountries");
-                });
-
-            modelBuilder.Entity("api.Core.Store.Entities.Country", b =>
+            modelBuilder.Entity("api.Core.Models.Country", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,42 +156,116 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Branch", b =>
+            modelBuilder.Entity("api.Core.Models.Employee", b =>
                 {
-                    b.HasOne("api.Core.Store.Entities.Company", "Company")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("api.Core.Models.Localization", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SequenceHiLo);
+
+                    b.Property<string>("Context")
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Locale")
+                        .IsRequired()
+                        .HasColumnType("character varying(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Context");
+
+                    b.HasIndex("Key");
+
+                    b.HasIndex("Key", "Context", "Locale")
+                        .IsUnique();
+
+                    b.ToTable("Localizations");
+                });
+
+            modelBuilder.Entity("api.Core.Models.Branch", b =>
+                {
+                    b.HasOne("api.Core.Models.Company", "Company")
                         .WithMany("Branches")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Core.Store.Entities.Country", "Country")
+                    b.HasOne("api.Core.Models.Country", "Country")
                         .WithMany("Branches")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.BranchEmployee", b =>
                 {
-                    b.HasOne("api.Core.Store.Entities.Company", "Parent")
+                    b.HasOne("api.Core.Models.Branch", "Branch")
+                        .WithMany("Employees")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Core.Models.Employee", "Employee")
+                        .WithMany("Branches")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("api.Core.Models.Company", b =>
+                {
+                    b.HasOne("api.Core.Models.Company", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.SetNull);
-                });
-
-            modelBuilder.Entity("api.Core.Store.Entities.CompanyCountry", b =>
-                {
-                    b.HasOne("api.Core.Store.Entities.Company", "Company")
-                        .WithMany("Countries")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.Core.Store.Entities.Country", "Country")
-                        .WithMany("Companies")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

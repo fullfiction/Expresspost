@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using api.Core.Extensions;
 using api.Core.Models;
-using api.Core.Store.Entities;
 using api.Infrastructure.Store;
 
 namespace api.Core.Store

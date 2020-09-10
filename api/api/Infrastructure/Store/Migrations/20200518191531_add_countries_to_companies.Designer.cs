@@ -23,7 +23,7 @@ namespace api.Infrastructure.Store.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("Relational:Sequence:.EntityFrameworkHiLoSequence", "'EntityFrameworkHiLoSequence', '', '1', '10', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("api.Core.Store.Entities.Admin", b =>
+            modelBuilder.Entity("api.Core.Models.Admin", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.Company", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,7 +84,7 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.CompanyCountry", b =>
+            modelBuilder.Entity("api.Core.Models.CompanyCountry", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("CompanyCountries");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Country", b =>
+            modelBuilder.Entity("api.Core.Models.Country", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,23 +132,23 @@ namespace api.Infrastructure.Store.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.Company", b =>
+            modelBuilder.Entity("api.Core.Models.Company", b =>
                 {
-                    b.HasOne("api.Core.Store.Entities.Company", "Parent")
+                    b.HasOne("api.Core.Models.Company", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("api.Core.Store.Entities.CompanyCountry", b =>
+            modelBuilder.Entity("api.Core.Models.CompanyCountry", b =>
                 {
-                    b.HasOne("api.Core.Store.Entities.Company", "Company")
+                    b.HasOne("api.Core.Models.Company", "Company")
                         .WithMany("Countries")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api.Core.Store.Entities.Country", "Country")
+                    b.HasOne("api.Core.Models.Country", "Country")
                         .WithMany("Companies")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)

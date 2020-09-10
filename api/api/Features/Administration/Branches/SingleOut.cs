@@ -5,6 +5,7 @@ namespace api.Features.Administration.Branches
     public class SingleOut
     {
         public long Id { get; set; }
+        public DateTime Created { get; set; }
         public bool IsStore { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }

@@ -22,7 +22,7 @@ namespace api.Infrastructure.Store.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("Relational:Sequence:.EntityFrameworkHiLoSequence", "'EntityFrameworkHiLoSequence', '', '1', '10', '', '', 'Int64', 'False'");
 
-            modelBuilder.Entity("api.Core.Store.Entities.Admin", b =>
+            modelBuilder.Entity("api.Core.Models.Admin", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using api.Core.Store.Entities;
+using api.Core.Models;
 using api.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using api.Core.Models;
 using api.Core.Services;
 using api.Infrastructure.Extensions;
 using api.Infrastructure.Models;
@@ -16,12 +15,12 @@ namespace api.Features.Administration.Authentication
     [Route("api/v{version:apiVersion}/[controller]")]
     public class AdminAuthenticationController : ControllerBase
     {
-        private readonly AdminService _adminService;
+        private readonly EmployeeService _employeeService;
         private readonly JWTokenService _jwtokenService;
 
-        public AdminAuthenticationController(AdminService adminService, JWTokenService jwtokenService)
+        public AdminAuthenticationController(EmployeeService employeeService, JWTokenService jwtokenService)
         {
-            _adminService = adminService;
+            _employeeService = employeeService;
             _jwtokenService = jwtokenService;
         }
 
@@ -30,7 +29,7 @@ namespace api.Features.Administration.Authentication
         [AllowAnonymous]
         public async Task<IActionResult> GenerateTokenAsync([FromBody] GenerateTokenIn request)
         {
-            var validationResult = await _adminService.ValidateCredentials(request.Username, request.Password);
+            var validationResult = await _employeeService.ValidateCredentials(request.Username, request.Password);
             if (!validationResult.Succeed)
                 return validationResult.AsApiResult();
             var token = _jwtokenService.CreateToken(new List<Claim>
@@ -46,7 +45,7 @@ namespace api.Features.Administration.Authentication
         public async Task<IActionResult> RenewTokenAsync([FromHeader(Name = "Authorization")] string oldToken)
         {
             var sub = HttpContext.User.GetSub();
-            var admin = await _adminService.GetActiveBySubAsync(sub);
+            var admin = await _employeeService.GetActiveBySubAsync(sub);
             if (admin == null)
                 return Unauthorized();
             var token = _jwtokenService.CreateToken(new List<Claim>

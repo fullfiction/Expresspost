@@ -7,10 +7,8 @@ namespace api.Infrastructure.Models
     public class PagingIn
     {
         [FromQuery(Name = "_start")]
-        [Required]
         public int Start { get; set; } = 0;
         [FromQuery(Name = "_end")]
-        [Required]
         public int End { get; set; } = 20;
     }
 }

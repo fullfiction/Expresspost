@@ -1,5 +1,5 @@
 using System;
-using api.Core.Store.Entities;
+using api.Core.Models;
 
 namespace api.Core.Models
 {

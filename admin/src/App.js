@@ -6,10 +6,12 @@ import Dashboard from "./Dashboard/Dashboard";
 import authProvider from "./Security/authProvider";
 import AdminLayout from "./AdminLayout";
 import IdleTimer from "react-idle-timer";
-import { AdminsList, AdminsEdit, AdminsCreate } from "./Admins/Admins";
-import { CompaniesList, CompaniesEdit, CompaniesCreate } from "./Companies/Companies";
-import { CountriesList, CountriesEdit, CountriesCreate } from "./Countries/Countries";
-import { BranchList, BranchEdit, BranchCreate } from "./Branches/Branches";
+
+import { EmployeesList, EmployeeEdit, EmployeeCreate } from "./Employees";
+import { CompaniesList, CompanyEdit, CompanyCreate } from "./Companies";
+import { CountriesList, CountryEdit, CountryCreate } from "./Countries";
+import { BranchesList, BranchEdit, BranchCreate } from "./Branches";
+import { LocalizationsList, LocalizationEdit } from "./Localizations"
 
 const httpClient = (url, options = {}) => {
 	if (!options.headers) {
@@ -22,6 +24,7 @@ const httpClient = (url, options = {}) => {
 		return { headers: headers, json: json.data };
 	});
 };
+
 const dataProvider = jsonServerProvider("http://localhost:5000/api/v1", httpClient);
 
 const App = (props) => {
@@ -43,40 +46,12 @@ const App = (props) => {
 				debounce={250}
 				timeout={60000}
 			/>
-			<Admin
-				dashboard={Dashboard}
-				authProvider={authProvider}
-				dataProvider={dataProvider}
-				appLayout={AdminLayout}
-			>
-				<Resource
-					name="Admins"
-					list={AdminsList}
-					edit={AdminsEdit}
-					create={AdminsCreate}
-					icon={UserIcon}
-				/>
-				<Resource
-					name="Companies"
-					list={CompaniesList}
-					edit={CompaniesEdit}
-					create={CompaniesCreate}
-					icon={UserIcon}
-				/>
-				<Resource
-					name="Countries"
-					list={CountriesList}
-					edit={CountriesEdit}
-					create={CountriesCreate}
-					icon={UserIcon}
-				/>
-				<Resource
-					name="Branches"
-					list={BranchList}
-					edit={BranchEdit}
-					create={BranchCreate}
-					icon={UserIcon}
-				/>
+			<Admin dashboard={Dashboard} authProvider={authProvider} dataProvider={dataProvider} appLayout={AdminLayout}>
+				<Resource name="Employees" list={EmployeesList} edit={EmployeeEdit} create={EmployeeCreate} icon={UserIcon}/>
+				<Resource name="Companies" list={CompaniesList} edit={CompanyEdit} create={CompanyCreate} icon={UserIcon}/>
+				<Resource name="Countries" list={CountriesList} edit={CountryEdit} create={CountryCreate} icon={UserIcon}/>
+				<Resource name="Branches" list={BranchesList} edit={BranchEdit} create={BranchCreate} icon={UserIcon}/>
+				<Resource name="Localizations" list={LocalizationsList} edit={LocalizationEdit} icon={UserIcon}/>
 			</Admin>
 		</div>
 	);

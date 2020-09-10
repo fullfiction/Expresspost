@@ -5,6 +5,7 @@ namespace api.Features.Administration.Companies
     public class SingleOut
     {
         public long Id { get; set; }
+        public DateTime Created { get; set; }
         public string Name { get; set; }
         public long ParentId { get; set; }
     }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Core.Models;
 using api.Core.Store;
-using api.Core.Store.Entities;
 using api.Infrastructure.Extensions;
 using api.Infrastructure.Models;
 using AutoMapper;

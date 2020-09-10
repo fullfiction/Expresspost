@@ -1,6 +1,6 @@
 using api.Core.Services;
 using api.Core.Store;
-using api.Core.Store.Entities;
+using api.Core.Models;
 using api.Infrastructure.Controllers;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

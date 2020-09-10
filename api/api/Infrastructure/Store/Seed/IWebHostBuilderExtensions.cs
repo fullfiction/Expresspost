@@ -14,7 +14,7 @@ namespace api.Infrastructure.Store.Seed
             {
                 var services = scope.ServiceProvider;
                 var context = scope.ServiceProvider.GetService<StoreContext>();
-                var adminService = scope.ServiceProvider.GetService<AdminService>();
+                var adminService = scope.ServiceProvider.GetService<EmployeeService>();
 
                 await new Seed(context).SeedAdminAsync(adminService);
             }
